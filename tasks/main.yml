@@ -1,0 +1,95 @@
+---
+# tasks file for postgresql
+
+- name: install postgresql
+  pacman:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - postgresql
+  tags:
+    - postgresql
+
+- name: install python package manager pip
+  pacman:
+    name: "{{ item }}"
+    state: latest
+    update_cache: yes
+  with_items:
+    - python-pip
+    - python2-pip
+  tags:
+    - postgresql
+
+- name: Install python db adapter
+  pip:
+    name: "{{ item }}"
+    state: latest
+  with_items:
+    - psycopg2
+  tags:
+    - postgresql
+
+- name: create data directory
+  file:
+    state: directory
+    path: "{{ postgresql_data_dir }}"
+    owner: "{{ postgresql_user }}"
+    group: "{{ postgresql_user }}"
+    mode: 0775
+  tags:
+    - postgresql
+
+- name: check if DB cluster was initialized
+  stat:
+    path: "{{ postgresql_data_dir }}/postgresql.conf"
+  register: already_initdb
+  tags:
+    - postgresql
+
+- name: initialize DB cluster
+  become: true
+  become_user: "{{ postgresql_user }}"
+  shell: "initdb --locale=$LANG --encoding=UTF8 --pgdata='{{ postgresql_data_dir }}'"
+  when: already_initdb.stat.exists == false
+  tags:
+    - postgresql
+
+- name: configure max_connections
+  lineinfile:
+    state: present
+    dest: "{{ postgresql_data_dir }}/postgresql.conf"
+    regexp: '^#*max_connections'
+    line: "max_connections = {{ postgresql_max_connections }}"
+  notify: reload postgresql
+  tags:
+    - postgresql
+
+- name: listen to external connections
+  lineinfile:
+    state: present
+    dest: "{{ postgresql_data_dir }}/postgresql.conf"
+    regexp: '^#* *listen_addresses ='
+    line: "listen_addresses = '*'"
+  notify: reload postgresql
+  when: postgresql_allow_remote_connections
+  tags:
+    - postgresql
+
+- name: allow connections from other hosts
+  blockinfile:
+    path: "{{ postgresql_data_dir }}/pg_hba.conf"
+    block: |
+      host all all all md5
+  notify: reload postgresql
+  when: postgresql_allow_remote_connections
+  tags:
+    - postgresql
+
+- name: start postgresql
+  service:
+    name: postgresql
+    state: started
+  tags:
+    - postgresql
