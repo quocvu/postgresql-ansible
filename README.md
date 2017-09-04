@@ -1,7 +1,7 @@
-[![Build Status](https://img.shields.io/travis/quocvu/postgresql-archlinux-ansible.svg)](https://travis-ci.org/quocvu/postgresql-archlinux-ansible)
+[![Build Status](https://img.shields.io/travis/quocvu/postgresql-archlinux.svg)](https://travis-ci.org/quocvu/postgresql-archlinux)
 
-postgresql
-==========
+postgresql-archlinux
+====================
 
 Deploy a Postgres RDBMS for development purpose.  
 
@@ -32,7 +32,7 @@ Including an example of how to use your role (for instance, with variables passe
 ```
 - hosts: servers
   roles:
-     - { role: quocvu.postgresql, postgresql_max_connections: 10 }
+     - { role: quocvu.postgresql-archlinux, postgresql_max_connections: 10 }
 ```
 
 License
