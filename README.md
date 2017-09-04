@@ -1,4 +1,5 @@
 [![Build Status](https://img.shields.io/travis/quocvu/postgresql-archlinux.svg)](https://travis-ci.org/quocvu/postgresql-archlinux)
+[![Ansible Role](https://img.shields.io/ansible/role/20210.svg)](https://galaxy.ansible.com/quocvu/postgresql-archlinux)
 
 postgresql-archlinux
 ====================
