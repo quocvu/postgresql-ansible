@@ -1,3 +1,5 @@
+[![Build Status](https://img.shields.io/travis/quocvu/postgresql-archlinux-ansible.svg)](https://travis-ci.org/quocvu/postgresql-archlinux-ansible)
+
 postgresql
 ==========
 
