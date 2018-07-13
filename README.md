@@ -11,7 +11,7 @@ Requirements
 
 Ansible and an internet connection.
 On Archlinux, `pacman` must be already installed.
-On OSX, 'homebrew' must be already installed.
+On OSX, `homebrew` must be already installed.
 
 
 Role Variables
