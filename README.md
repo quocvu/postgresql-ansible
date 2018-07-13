@@ -9,7 +9,9 @@ Deploy a Postgres RDBMS for development purpose.
 Requirements
 ------------
 
-Ansible and an internet connection
+Ansible and an internet connection.
+On Archlinux, `pacman` must be already installed.
+On OSX, 'homebrew' must be already installed.
 
 
 Role Variables
@@ -45,4 +47,6 @@ Author Information
 ------------------
 
 Quoc Vu  
-https://linkedin.com/in/quocvu  
+
+* https://github.com/quocvu
+* https://linkedin.com/in/quocvu  
