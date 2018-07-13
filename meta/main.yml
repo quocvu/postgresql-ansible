@@ -9,12 +9,16 @@ galaxy_info:
     - name: ArchLinux
       versions:
         - all
+    - name: MacOSX
+      versions:
+       - all
   galaxy_tags:
     - archlinux
     - database
     - dbms
     - development
     - linux
+    - osx
     - postgres
     - postgresql
     - rdbms

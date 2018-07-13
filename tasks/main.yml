@@ -2,6 +2,7 @@
 # tasks file for postgresql
 
 - name: install postgresql
+  when: ansible_os_family == "Archlinux"
   pacman:
     name: "{{ item }}"
     state: latest
@@ -11,23 +12,11 @@
   tags:
     - postgresql
 
-- name: install python package manager pip
-  pacman:
-    name: "{{ item }}"
+- name: install postgresql
+  when: ansible_os_family == "Darwin"
+  homebrew:
+    name: postgresql
     state: latest
-    update_cache: yes
-  with_items:
-    - python-pip
-    - python2-pip
-  tags:
-    - postgresql
-
-- name: Install python db adapter
-  pip:
-    name: "{{ item }}"
-    state: latest
-  with_items:
-    - psycopg2
   tags:
     - postgresql
 
