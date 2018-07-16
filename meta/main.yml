@@ -1,4 +1,5 @@
 galaxy_info:
+  role_name: postgresql
   author: Quoc Vu
   description: Deploy Postgresql to an ArchLinux server
   company: N/A
