@@ -1,6 +1,6 @@
 galaxy_info:
   author: Quoc Vu
-  description: Deploy Postgresql to an ArchLinux server
+  description: Deploy Postgresql RDBMS to an ArchLinux or OSX server
   company: N/A
   license: MIT
   min_ansible_version: 2.0

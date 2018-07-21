@@ -1,9 +1,9 @@
 ---
 # tasks file for postgresql
 
-- name: install postgresql
-  when: ansible_os_family == "Archlinux"
-  pacman:
+- name: install postgresql on Archlinux
+  when: ansible_os_family != "Darwin"
+  package:
     name: "{{ item }}"
     state: latest
     update_cache: yes
@@ -12,7 +12,7 @@
   tags:
     - postgresql
 
-- name: install postgresql
+- name: install postgresql on OSX
   when: ansible_os_family == "Darwin"
   homebrew:
     name: postgresql
@@ -20,12 +20,19 @@
   tags:
     - postgresql
 
+- name: create the postgresql user
+  become: true
+  user:
+    name: "{{ postgresql_user }}"
+  tags:
+    - postgresql
+
 - name: create data directory
+  become: true
   file:
     state: directory
     path: "{{ postgresql_data_dir }}"
     owner: "{{ postgresql_user }}"
-    group: "{{ postgresql_user }}"
     mode: 0775
   tags:
     - postgresql
@@ -46,6 +53,8 @@
     - postgresql
 
 - name: configure max_connections
+  become: true
+  become_user: "{{ postgresql_user }}"
   lineinfile:
     state: present
     dest: "{{ postgresql_data_dir }}/postgresql.conf"
@@ -56,6 +65,8 @@
     - postgresql
 
 - name: listen to external connections
+  become: true
+  become_user: "{{ postgresql_user }}"
   lineinfile:
     state: present
     dest: "{{ postgresql_data_dir }}/postgresql.conf"
@@ -67,6 +78,8 @@
     - postgresql
 
 - name: allow connections from other hosts
+  become: true
+  become_user: "{{ postgresql_user }}"
   blockinfile:
     path: "{{ postgresql_data_dir }}/pg_hba.conf"
     block: |
@@ -77,6 +90,7 @@
     - postgresql
 
 - name: start postgresql
+  when: ansible_os_family != "Darwin"
   service:
     name: postgresql
     state: started

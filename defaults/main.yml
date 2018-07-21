@@ -1,7 +1,7 @@
 ---
 # defaults file for postgresql
 
-postgresql_user: postgres
-postgresql_data_dir: "/var/lib/postgres/data"
+postgresql_user: postgresql
+postgresql_data_dir: "/var/lib/postgresql/data"
 postgresql_max_connections: 5
 postgresql_allow_remote_connections: yes
