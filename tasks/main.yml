@@ -96,3 +96,18 @@
     state: started
   tags:
     - postgresql
+
+- name: add postgresql launch agent
+  when: ansible_os_family == "Darwin"
+  file:
+    src: /usr/local/opt/postgresql/homebrew.mxcl.postgresql.plist
+    dest: "{{ lookup('env','HOME') }}/Library/LaunchAgents/homebrew.mxcl.postgresql.plist"
+    state: link
+  tags:
+    - postgresql
+
+- name: load postgresql launch agent
+  when: ansible_os_family == "Darwin"
+  shell: launchctl load {{ lookup('env','HOME') }}/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+  tags:
+    - postgresql
